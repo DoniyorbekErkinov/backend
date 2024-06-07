@@ -1,0 +1,118 @@
+{
+  "Apps": [
+    {
+      "id": 1,
+      "name": "Project Sukuyomi",
+      "todos": [
+        {
+          "id": 1,
+          "name": "Odam o`ldirish",
+          "isCompleted": false,
+          "isArchived": false,
+          "tasks": [
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Odam organlarini sotish",
+          "isCompleted": false,
+          "isArchived": false,
+          "tasks": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Project 2",
+      "todos": []
+    },
+    {
+      "id": 3,
+      "name": "Project 3",
+      "todos": [
+        {
+          "id": 1,
+          "name": "Odam o`ldirish",
+          "isCompleted": false,
+          "isArchived": false,
+          "tasks": [
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Odam o`ldirish",
+          "isCompleted": false,
+          "isArchived": false,
+          "tasks": [
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Odam o`ldirish",
+          "isCompleted": false,
+          "isArchived": false,
+          "tasks": [
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            },
+            {
+              "isCompleted": false,
+              "text": "Uni topish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mante",
+      "id": 4,
+      "todos": []
+    },
+    {
+      "name": "id 5 bo'lsin",
+      "id": 5,
+      "todos": []
+    }
+  ]
+}
