@@ -1,0 +1,25 @@
+{
+    "name": "Testing asdadsasd",
+    "id": 5,
+    "createdAt": "2024-06-09T10:36:40.253Z",
+    "todos": [
+      {
+        "name": "todo 5",
+        "id": 1,
+        "createdAt": "2024-06-09T10:36:52.836Z",
+        "isArchived": true,
+        "tasks": [
+          {
+            "text": "task asda",
+            "isCompleted": true
+          },
+          {
+            "text": "asd 3",
+            "isCompleted": true
+          }
+        ],
+        "isCompleted": true,
+        "completedAt": "2024-06-09T13:12:58.487Z"
+      }
+    ]
+  }

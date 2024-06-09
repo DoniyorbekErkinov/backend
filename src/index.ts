@@ -36,7 +36,6 @@ type DataStructure = {
   Apps: App[];
 };
 
-
 // Initialize the file if it doesn't exist
 const initializeFile = () => {
   if (!fs.existsSync(filePath)) {
@@ -70,6 +69,37 @@ const getNextTodoId = (app: App): number => {
   const maxId = app.todos.reduce((max, todo) => Math.max(max, todo.id), 0);
   return maxId + 1;
 };
+
+// Import a specific app
+app.post('/apps/import', (req: Request, res: Response) => {
+  const importedApp: App = req.body;
+
+  // Assign a new ID to the imported app
+  importedApp.id = getNextAppId();
+
+  // Assign new IDs to the todos within the imported app
+  importedApp.todos = importedApp.todos.map(todo => ({
+    ...todo,
+    id: getNextTodoId(importedApp)
+  }));
+
+  // Add the imported app to the data structure
+  data.Apps.push(importedApp);
+  writeItems(data);
+
+  res.status(201).json(importedApp);
+});
+
+// Export a specific app
+app.get('/apps/:appId/export', (req: Request, res: Response) => {
+  const appId = parseInt(req.params.appId);
+  const app = data.Apps.find(a => a.id === appId);
+  if (app) {
+    res.json(app);
+  } else {
+    res.status(404).json({ message: 'App not found' });
+  }
+});
 
 // Get all apps
 app.get('/apps', (req: Request, res: Response) => {
@@ -108,7 +138,8 @@ app.get('/apps/:appId/todos', (req: Request, res: Response) => {
   const appId = parseInt(req.params.appId);
   const app = data.Apps.find(a => a.id === appId);
   if (app) {
-    res.json(app.todos);
+    let data = app.todos.filter((el) => !el.isArchived)
+    res.json(data);
   } else {
     res.status(404).json({ message: 'App not found' });
   }
@@ -260,6 +291,7 @@ app.put('/apps/:appId/todos/:todoId/tasks/:taskIndex/toggle', (req: Request, res
     res.status(404).json({ message: 'App not found' });
   }
 });
+
 app.delete('/apps/:appId/todos/:todoId/tasks/:taskIndex', (req: Request, res: Response) => {
   const appId = parseInt(req.params.appId);
   const todoId = parseInt(req.params.todoId);
@@ -305,6 +337,62 @@ app.put('/apps/:appId/todos/:todoId/check', (req: Request, res: Response) => {
   } else {
     res.status(404).json({ message: 'App not found' });
   }
+});
+
+// Search todos by name within a specific app and optionally filter by status and completion
+app.get('/apps/:appId/todos/search', (req: Request, res: Response) => {
+  const appId = parseInt(req.params.appId);
+  const query = req.query.q as string;
+  const status = req.query.status as string;
+  const completed = req.query.completed as string;
+
+  if (!query) {
+    return res.status(400).json({ message: 'Query parameter "q" is required' });
+  }
+
+  const app = data.Apps.find(a => a.id === appId);
+  if (!app) {
+    return res.status(404).json({ message: 'App not found' });
+  }
+
+  let results = app.todos.filter(todo => todo.name.toLowerCase().includes(query.toLowerCase()));
+
+  if (status) {
+    results = results.filter(todo => (status === 'archived' ? todo.isArchived : !todo.isArchived));
+  }
+
+  if (completed) {
+    const isCompleted = completed === 'true';
+    results = results.filter(todo => todo.isCompleted === isCompleted);
+  }
+
+  res.json(results);
+});
+
+
+// Filter todos by archived status and completion
+app.get('/apps/:appId/todos/filter', (req: Request, res: Response) => {
+  const appId = parseInt(req.params.appId);
+  const status = req.query.status as string;
+  const completed = req.query.completed as string;
+
+  const app = data.Apps.find(a => a.id === appId);
+  if (!app) {
+    return res.status(404).json({ message: 'App not found' });
+  }
+
+  let filteredTodos = app.todos;
+
+  if (status) {
+    filteredTodos = filteredTodos.filter(todo => (status === 'archived' ? todo.isArchived : !todo.isArchived));
+  }
+
+  if (completed) {
+    const isCompleted = completed === 'true';
+    filteredTodos = filteredTodos.filter(todo => todo.isCompleted === isCompleted);
+  }
+
+  res.json(filteredTodos);
 });
 
 const PORT = 3000;
