@@ -1,118 +1,27 @@
 {
   "Apps": [
     {
+      "name": "testing",
       "id": 1,
-      "name": "Project Sukuyomi",
+      "createdAt": "2024-06-09T10:36:40.253Z",
       "todos": [
         {
+          "name": "todo 1",
           "id": 1,
-          "name": "Odam o`ldirish",
-          "isCompleted": false,
+          "createdAt": "2024-06-09T10:36:52.836Z",
           "isArchived": false,
           "tasks": [
             {
-              "isCompleted": false,
-              "text": "Uni topish"
+              "text": "task",
+              "isCompleted": true
             },
             {
-              "isCompleted": false,
-              "text": "Uni topish"
-            },
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "Odam organlarini sotish",
-          "isCompleted": false,
-          "isArchived": false,
-          "tasks": []
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "name": "Project 2",
-      "todos": []
-    },
-    {
-      "id": 3,
-      "name": "Project 3",
-      "todos": [
-        {
-          "id": 1,
-          "name": "Odam o`ldirish",
-          "isCompleted": false,
-          "isArchived": false,
-          "tasks": [
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            },
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            },
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            }
-          ]
-        },
-        {
-          "id": 1,
-          "name": "Odam o`ldirish",
-          "isCompleted": false,
-          "isArchived": false,
-          "tasks": [
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            },
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            },
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            }
-          ]
-        },
-        {
-          "id": 1,
-          "name": "Odam o`ldirish",
-          "isCompleted": false,
-          "isArchived": false,
-          "tasks": [
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            },
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
-            },
-            {
-              "isCompleted": false,
-              "text": "Uni topish"
+              "text": "new task",
+              "isCompleted": false
             }
           ]
         }
       ]
-    },
-    {
-      "name": "mante",
-      "id": 4,
-      "todos": []
-    },
-    {
-      "name": "id 5 bo'lsin",
-      "id": 5,
-      "todos": []
     }
   ]
 }

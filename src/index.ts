@@ -20,12 +20,15 @@ type Todo = {
   name: string;
   isCompleted: boolean;
   isArchived: boolean;
+  createdAt: string;
+  completedAt?: string; // Optional field, only present if the todo is completed
   tasks: Task[];
 };
 
 type App = {
   id: number;
   name: string;
+  createdAt: string;
   todos: Todo[];
 };
 
@@ -33,20 +36,21 @@ type DataStructure = {
   Apps: App[];
 };
 
-// Function to initialize the JSON file if it doesn't exist
+
+// Initialize the file if it doesn't exist
 const initializeFile = () => {
   if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, JSON.stringify({ Apps: [] }));
   }
 };
 
-// Function to read items from the JSON file
+// Read items from the JSON file
 const readItems = (): DataStructure => {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   return JSON.parse(fileContent);
 };
 
-// Function to write items to the JSON file
+// Write items to the JSON file
 const writeItems = (data: DataStructure) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 };
@@ -77,6 +81,7 @@ app.post('/apps', (req: Request, res: Response) => {
   const newApp: App = {
     ...req.body,
     id: getNextAppId(),
+    createdAt: new Date().toISOString(),
     todos: []
   };
   data.Apps.push(newApp);
@@ -117,8 +122,9 @@ app.post('/apps/:appId/todos', (req: Request, res: Response) => {
     const newTodo: Todo = {
       ...req.body,
       id: getNextTodoId(app),
-      tasks: [],
-      isArchived: false // Ensure new todos are not archived
+      createdAt: new Date().toISOString(),
+      isArchived: false, // Ensure new todos are not archived
+      tasks: []
     };
     app.todos.push(newTodo);
     writeItems(data);
@@ -188,21 +194,84 @@ app.post('/apps/:appId/todos/:todoId/tasks', (req: Request, res: Response) => {
   }
 });
 
-// Update a task in a specific todo in a specific app
-app.put('/apps/:appId/todos/:todoId/tasks/:taskId', (req: Request, res: Response) => {
+// Get tasks of a specific todo in a specific app
+app.get('/apps/:appId/todos/:todoId/tasks', (req: Request, res: Response) => {
   const appId = parseInt(req.params.appId);
   const todoId = parseInt(req.params.todoId);
-  const taskId = parseInt(req.params.taskId);
+  const app = data.Apps.find(a => a.id === appId);
+  if (app) {
+    const todo = app.todos.find(t => t.id === todoId);
+    if (todo) {
+      res.json(todo.tasks);
+    } else {
+      res.status(404).json({ message: 'Todo not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'App not found' });
+  }
+});
+
+// Update a task in a specific todo in a specific app
+app.put('/apps/:appId/todos/:todoId/tasks/:taskIndex', (req: Request, res: Response) => {
+  const appId = parseInt(req.params.appId);
+  const todoId = parseInt(req.params.todoId);
+  const taskIndex = parseInt(req.params.taskIndex);
   const updatedTask: Task = req.body;
   const app = data.Apps.find(a => a.id === appId);
   if (app) {
     const todo = app.todos.find(t => t.id === todoId);
     if (todo) {
-      const taskIndex = todo.tasks.findIndex((task, index) => index === taskId);
-      if (taskIndex !== -1) {
+      if (taskIndex >= 0 && taskIndex < todo.tasks.length) {
         todo.tasks[taskIndex] = updatedTask;
         writeItems(data);
         res.json(updatedTask);
+      } else {
+        res.status(404).json({ message: 'Task not found' });
+      }
+    } else {
+      res.status(404).json({ message: 'Todo not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'App not found' });
+  }
+});
+
+// Toggle completion of a task in a specific todo in a specific app
+app.put('/apps/:appId/todos/:todoId/tasks/:taskIndex/toggle', (req: Request, res: Response) => {
+  const appId = parseInt(req.params.appId);
+  const todoId = parseInt(req.params.todoId);
+  const taskIndex = parseInt(req.params.taskIndex);
+  const app = data.Apps.find(a => a.id === appId);
+  if (app) {
+    const todo = app.todos.find(t => t.id === todoId);
+    if (todo) {
+      if (taskIndex >= 0 && taskIndex < todo.tasks.length) {
+        const task = todo.tasks[taskIndex];
+        task.isCompleted = !task.isCompleted;
+        writeItems(data);
+        res.json(task);
+      } else {
+        res.status(404).json({ message: 'Task not found' });
+      }
+    } else {
+      res.status(404).json({ message: 'Todo not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'App not found' });
+  }
+});
+app.delete('/apps/:appId/todos/:todoId/tasks/:taskIndex', (req: Request, res: Response) => {
+  const appId = parseInt(req.params.appId);
+  const todoId = parseInt(req.params.todoId);
+  const taskIndex = parseInt(req.params.taskIndex);
+  const app = data.Apps.find(a => a.id === appId);
+  if (app) {
+    const todo = app.todos.find(t => t.id === todoId);
+    if (todo) {
+      if (taskIndex >= 0 && taskIndex < todo.tasks.length) {
+        const deletedTask = todo.tasks.splice(taskIndex, 1)[0]; // Remove the task and store it
+        writeItems(data);
+        res.json(deletedTask); // Respond with the deleted task
       } else {
         res.status(404).json({ message: 'Task not found' });
       }
@@ -223,6 +292,11 @@ app.put('/apps/:appId/todos/:todoId/check', (req: Request, res: Response) => {
     const todo = app.todos.find(t => t.id === todoId);
     if (todo) {
       todo.isCompleted = !todo.isCompleted;
+      if (todo.isCompleted) {
+        todo.completedAt = new Date().toISOString();
+      } else {
+        delete todo.completedAt;
+      }
       writeItems(data);
       res.json(todo);
     } else {
