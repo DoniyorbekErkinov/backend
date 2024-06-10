@@ -389,6 +389,32 @@ app.get('/apps/:appId/todos/filter', (req: Request, res: Response) => {
 
   res.json(filteredTodos);
 });
+
+// Toggle completion of a task in a specific todo in a specific app
+app.put('/apps/:appId/todos/:todoId/tasks/:taskIndex/toggle', (req: Request, res: Response) => {
+  const appId = parseInt(req.params.appId);
+  const todoId = parseInt(req.params.todoId);
+  const taskIndex = parseInt(req.params.taskIndex);
+  const app = data.Apps.find(a => a.id === appId);
+  if (app) {
+    const todo = app.todos.find(t => t.id === todoId);
+    if (todo) {
+      if (taskIndex >= 0 && taskIndex < todo.tasks.length) {
+        const task = todo.tasks[taskIndex];
+        task.isCompleted = !task.isCompleted;
+        writeItems(data);
+        res.json(task);
+      } else {
+        res.status(404).json({ message: 'Task not found' });
+      }
+    } else {
+      res.status(404).json({ message: 'Todo not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'App not found' });
+  }
+});
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
