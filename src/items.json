@@ -4,7 +4,50 @@
       "name": "asdads",
       "id": 1,
       "createdAt": "2024-06-09T16:27:25.833Z",
-      "todos": []
+      "todos": [
+        {
+          "name": "sadasd",
+          "id": 1,
+          "createdAt": "2024-06-10T05:42:55.203Z",
+          "isArchived": false,
+          "isCompleted": false,
+          "tasks": []
+        },
+        {
+          "name": "qweqwe",
+          "id": 2,
+          "createdAt": "2024-06-10T05:42:57.398Z",
+          "isArchived": false,
+          "isCompleted": true,
+          "tasks": [],
+          "completedAt": "2024-06-10T05:55:13.050Z"
+        },
+        {
+          "name": "hjkhjk",
+          "id": 3,
+          "createdAt": "2024-06-10T05:43:00.273Z",
+          "isArchived": true,
+          "isCompleted": false,
+          "tasks": []
+        },
+        {
+          "name": "xcvxcv",
+          "id": 4,
+          "createdAt": "2024-06-10T05:43:02.582Z",
+          "isArchived": false,
+          "isCompleted": true,
+          "tasks": [],
+          "completedAt": "2024-06-10T05:55:26.018Z"
+        },
+        {
+          "name": "zzzxx",
+          "id": 5,
+          "createdAt": "2024-06-10T05:43:50.586Z",
+          "isArchived": false,
+          "isCompleted": false,
+          "tasks": []
+        }
+      ]
     },
     {
       "name": "Testing asdadsasd",
