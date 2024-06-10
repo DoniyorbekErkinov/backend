@@ -1,8 +1,11 @@
 {
   "name": "my-fullstack-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "node express testing",
+  "main": "index.ts",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/index.ts"
