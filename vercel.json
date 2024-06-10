@@ -1,7 +1,5 @@
 {
-    "git": {
-      "deploymentEnabled": {
-        "main": false
-      }
-    }
+   "version": 2,
+   "build": [{"src": "./index.ts", "use": "@vercal/node"}],
+   "routes": [{"src": "/(.*)", "dist": "/"}]
   }
