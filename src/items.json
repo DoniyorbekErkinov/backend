@@ -69,7 +69,36 @@
       "name": "asdads",
       "id": 3,
       "createdAt": "2024-06-09T16:27:25.833Z",
-      "todos": []
+      "todos": [
+        {
+          "name": "asdads",
+          "id": 1,
+          "createdAt": "2024-06-09T16:31:16.220Z",
+          "isArchived": false,
+          "tasks": [
+            {
+              "text": "asdasd",
+              "isCompleted": true
+            },
+            {
+              "text": "asdasd",
+              "isCompleted": true
+            },
+            {
+              "text": "asdasd",
+              "isCompleted": true
+            },
+            {
+              "text": "adsasdas",
+              "isCompleted": false
+            },
+            {
+              "text": "sdfsd",
+              "isCompleted": false
+            }
+          ]
+        }
+      ]
     }
   ]
 }
